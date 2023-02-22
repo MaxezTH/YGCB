@@ -1,0 +1,795 @@
+import tkinter
+import time
+import pyautogui
+import win32api
+import win32con
+from tkinter import *
+import requests
+import subprocess
+from tkinter import messagebox as mb
+
+global gameonline, moni1, moni2, moni3, moni4, moni5, moni6, moni7, moni8, hwidon, moni9, moni10, moni11, moni12, moni13, moni14, moni15, moni16, mini, mini800
+mini = False
+mini800 = False
+def stopkub():
+    global moni1, moni2, moni3, moni4, moni5, moni6, moni7, moni8, countdown, moni9, moni10, moni11, moni12, moni13, moni14, moni15, moni16, mini, mini800
+    moni1 = False
+    moni2 = False
+    moni3 = False
+    moni4 = False
+    moni5 = False
+    moni6 = False
+    moni7 = False
+    moni8 = False
+    moni9 = False
+    moni10 = False
+    moni11 = False
+    moni12 = False
+    moni13 = False
+    moni14 = False
+    moni15 = False
+    moni16 = False
+    countdown = False
+    mini = False
+    mini800 = False
+    status_ball.configure(text=" ", fg="yellow")
+    root.update()
+
+def showMessage(message, type='info', timeout=2500):
+    import tkinter as tk
+    from tkinter import messagebox as msgb
+
+    root2 = tk.Tk()
+    root2.withdraw()
+    try:
+        root2.after(timeout, root2.destroy)
+        if type == 'info':
+            msgb.showinfo('แจ้งเตือน', message, master=root2)
+        elif type == 'warning':
+            msgb.showwarning('Warning', message, master=root2)
+        elif type == 'error':
+            msgb.showerror('Error', message, master=root2)
+    except:
+        pass
+
+def submit():
+    label2.configure(text="ตั้งนาทีทำงานอีกครั้ง", fg="white")
+    hour = StringVar()
+    minute = StringVar()
+    second = StringVar()
+
+    # setting the default value as 0
+    hour.set("00")
+    minute.set("00")
+    second.set("00")
+    try:
+        # the input provided by the user is
+        # stored in here :temp
+        temp = int(hour.get()) * 3600 + int(minuteEntry.get()) * 60 + int(second.get())
+    except:
+        print("Please input the right value")
+    while temp > -1:
+        if countdown:
+            # divmod(firstvalue = temp//60, secondvalue = temp%60)
+            mins, secs = divmod(temp, 60)
+
+            # Converting the input entered in mins or secs to hours,
+            # mins ,secs(input = 110 min --> 120*60 = 6600 => 1hr :
+            # 50min: 0sec)
+            hours = 0
+            if mins > 60:
+                # divmod(firstvalue = temp//60, secondvalue
+                # = temp%60)
+                hours, mins = divmod(mins, 60)
+
+            # using format () method to store the value up to
+            # two decimal places
+            hour.set("{0:2d}".format(hours))
+            minute.set("{0:2d}".format(mins))
+            second.set("{0:2d}".format(secs))
+
+            # updating the GUI window after decrementing the
+            # temp value every time
+            print(temp)
+            label_countdown.configure(text="อีก" + str(temp) + "วินาทีจะเริ่มใหม่", fg="red")
+            root.update()
+            time.sleep(1)
+
+            # when temp value = 0; then a messagebox pop's up
+            # with a message:"Time's up"
+            if (temp == 10):
+                showMessage('อีก 10วินาทีจะทำงานอีกครั้ง\n โปรดปล่อยเมาส์', type='info', timeout=10000)
+                checkmonitor()
+            #if (temp == 0):
+                #checkmonitor()
+                #root.state(newstate='normal')
+            # after every one sec the value of temp will be decremented
+            # by one
+            temp -= 1
+        else:
+            temp = -1
+
+def minimize():
+    global mini800
+    if mini:
+        global mini800
+        logo = pyautogui.locateOnScreen('data_pic/logo.png', confidence=0.90)
+        miniz = pyautogui.locateOnScreen('data_pic/mini.png', confidence=0.70)
+        time.sleep(0.5)
+        print("moveto logo")
+        #pyautogui.moveTo(logo, duration=0.2)
+        #time.sleep(0.2)
+        print("moveto minimize And Click")
+        print(mini800)
+        if mini800:
+            pyautogui.moveTo(logo[0]+675,logo[1], duration=0.2)
+            time.sleep(0.2)
+            click()
+        else:
+            pyautogui.moveTo(logo[0] + 900, logo[1], duration=0.2)
+            time.sleep(0.2)
+            click()
+            pass
+    else:
+        print("No Boxcheck")
+        pass
+
+
+def checkmonitor():
+    windowno1 = pyautogui.locateOnScreen('data_pic\windowno1.png', confidence=0.98)
+    windowno2 = pyautogui.locateOnScreen('data_pic\windowno2.png', confidence=0.98)
+    windowno3 = pyautogui.locateOnScreen('data_pic\windowno3.png', confidence=0.98)
+    windowno4 = pyautogui.locateOnScreen('data_pic\windowno4.png', confidence=0.98)
+    windowno5 = pyautogui.locateOnScreen('data_pic\windowno5.png', confidence=0.98)
+    windowno6 = pyautogui.locateOnScreen('data_pic\windowno6.png', confidence=0.98)
+    windowno7 = pyautogui.locateOnScreen('data_pic\windowno7.png', confidence=0.98)
+    windowno8 = pyautogui.locateOnScreen('data_pic\windowno8.png', confidence=0.98)
+    windowno9 = pyautogui.locateOnScreen('data_pic\windowno9.png', confidence=0.98)
+    windowno10 = pyautogui.locateOnScreen('data_pic\windowno10.png', confidence=0.98)
+    windowno11 = pyautogui.locateOnScreen('data_pic\windowno11.png', confidence=0.98)
+    windowno12 = pyautogui.locateOnScreen('data_pic\windowno12.png', confidence=0.98)
+    windowno13 = pyautogui.locateOnScreen('data_pic\windowno13.png', confidence=0.98)
+    windowno14 = pyautogui.locateOnScreen('data_pic\windowno14.png', confidence=0.98)
+    windowno15 = pyautogui.locateOnScreen('data_pic\windowno15.png', confidence=0.98)
+    windowno16 = pyautogui.locateOnScreen('data_pic\windowno16.png', confidence=0.98)
+    global moni1, moni2, moni3, moni4, moni5, moni6, moni7, moni8, countdown, moni9, moni10, moni11, moni12, moni13, moni14, moni15, moni16
+    if windowno1:
+        moni1 = True
+        print("เจอ จอ 1")
+        label2.configure(text="พบ 1 จอ", fg="white")
+        root.update()
+    else:
+        moni1 = False
+        print("ไม่เจอ จอ 1")
+        label2.configure(text="ไม่เจอระบบ", fg="white")
+        root.update()
+    if windowno2:
+        moni2 = True
+        print("เจอ จอ 2")
+        label2.configure(text="พบ 2 จอ", fg="white")
+        root.update()
+    else:
+        moni2 = False
+        print("ไม่เจอ จอ 2")
+    if windowno3:
+        moni3 = True
+        print("เจอ จอ 3")
+        label2.configure(text="พบ 3 จอ", fg="white")
+        root.update()
+    else:
+        moni3 = False
+        print("ไม่เจอ จอ 3")
+    if windowno4:
+        moni4 = True
+        print("เจอ จอ 4")
+        label2.configure(text="พบ 3 จอ", fg="white")
+        root.update()
+    else:
+        moni4 = False
+        print("ไม่เจอ จอ 4")
+    if windowno5:
+        moni5 = True
+        print("เจอ จอ 5")
+        label2.configure(text="พบ 5 จอ", fg="white")
+        root.update()
+    else:
+        moni5 = False
+        print("ไม่เจอ จอ 5")
+    if windowno6:
+        moni6 = True
+        print("เจอ จอ 6")
+        label2.configure(text="พบ 6 จอ", fg="white")
+        root.update()
+    else:
+        moni6 = False
+        print("ไม่เจอ จอ 6")
+    if windowno7:
+        moni7 = True
+        print("เจอ จอ 7")
+        label2.configure(text="พบ 7 จอ", fg="white")
+        root.update()
+    else:
+        moni7 = False
+        print("ไม่เจอ จอ 7")
+    if windowno8:
+        moni8 = True
+        print("เจอ จอ 8")
+        label2.configure(text="พบ 8 จอ", fg="white")
+        root.update()
+    else:
+        moni8 = False
+    if windowno9:
+        moni9 = True
+        print("เจอ จอ 9")
+        label2.configure(text="พบ 9 จอ", fg="white")
+        root.update()
+    else:
+        moni9 = False
+        print("ไม่เจอ จอ 9")
+    if windowno10:
+        moni10 = True
+        print("เจอ จอ 10")
+        label2.configure(text="พบ 10 จอ", fg="white")
+        root.update()
+    else:
+        moni10 = False
+        print("ไม่เจอ จอ 10")
+    if windowno11:
+        moni11 = True
+        print("เจอ จอ 11")
+        label2.configure(text="พบ 11 จอ", fg="white")
+        root.update()
+    else:
+        moni11 = False
+        print("ไม่เจอ จอ 11")
+    if windowno12:
+        moni12 = True
+        print("เจอ จอ 12")
+        label2.configure(text="พบ 12 จอ", fg="white")
+        root.update()
+    else:
+        moni12 = False
+        print("ไม่เจอ จอ 12")
+    if windowno13:
+        moni13 = True
+        print("เจอ จอ 13")
+        label2.configure(text="พบ 13 จอ", fg="white")
+        root.update()
+    else:
+        moni13 = False
+        print("ไม่เจอ จอ 13")
+    if windowno14:
+        moni14 = True
+        print("เจอ จอ 14")
+        label2.configure(text="พบ 14 จอ", fg="white")
+        root.update()
+    else:
+        moni14 = False
+        print("ไม่เจอ จอ 14")
+    if windowno15:
+        moni15 = True
+        print("เจอ จอ 15")
+        label2.configure(text="พบ 15 จอ", fg="white")
+        root.update()
+    else:
+        moni15 = False
+        print("ไม่เจอ จอ 15")
+    if windowno16:
+        moni16 = True
+        print("เจอ จอ 16")
+        label2.configure(text="พบ 16 จอ", fg="white")
+        root.update()
+    else:
+        moni16 = False
+        print("ไม่เจอ จอ 16")
+    window1()
+    countdown = True
+    submit()
+
+
+def login():
+    window1()
+
+def click():
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
+    time.sleep(0.1)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+
+def window1():
+    if moni1:
+        windowno1 = pyautogui.locateOnScreen('data_pic/windowno1.png', confidence=0.70)
+        label_countdown.configure(text="กำลังทำงานจอที่ 1", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno1, duration=0.2)
+        time.sleep(0.3)
+        pyautogui.doubleClick()
+        print("windowno1" + str(windowno1))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window2()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window2()
+def window2():
+    if moni2:
+        windowno2 = pyautogui.locateOnScreen('data_pic/windowno2.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 2", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno2, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno2" + str(windowno2))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window3()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window3()
+def window3():
+    if moni3:
+        windowno3 = pyautogui.locateOnScreen('data_pic/windowno3.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 3", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno3, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno3" + str(windowno3))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window4()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window4()
+def window4():
+    if moni4:
+        windowno4 = pyautogui.locateOnScreen('data_pic/windowno4.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 4", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno4, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno4" + str(windowno4))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window5()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window5()
+def window5():
+    if moni5:
+        windowno5 = pyautogui.locateOnScreen('data_pic/windowno5.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 5", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno5, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno5" + str(windowno5))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window6()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window6()
+def window6():
+    if moni6:
+        windowno6 = pyautogui.locateOnScreen('data_pic/windowno6.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 6", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno6, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno6" + str(windowno6))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window7()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window7()
+def window7():
+    if moni7:
+        windowno7 = pyautogui.locateOnScreen('data_pic/windowno7.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 7", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno7, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno7" + str(windowno7))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window8()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window8()
+def window8():
+    if moni8:
+        windowno8 = pyautogui.locateOnScreen('data_pic/windowno8.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 8", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno8, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno8" + str(windowno8))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window9()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window9()
+def window9():
+    if moni9:
+        windowno9 = pyautogui.locateOnScreen('data_pic/windowno9.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 9", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno9, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno9" + str(windowno9))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window10()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window10()
+def window10():
+    if moni10:
+        windowno10 = pyautogui.locateOnScreen('data_pic/windowno10.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 10", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno10, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno10" + str(windowno10))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window11()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window11()
+def window11():
+    if moni11:
+        windowno11 = pyautogui.locateOnScreen('data_pic/windowno11.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 11", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno11, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno11" + str(windowno11))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window12()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window12()
+def window12():
+    if moni12:
+        windowno12 = pyautogui.locateOnScreen('data_pic/windowno12.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 12", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno12, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno12" + str(windowno12))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window13()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window13()
+def window13():
+    if moni13:
+        windowno13 = pyautogui.locateOnScreen('data_pic/windowno13.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 13", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno13, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno13" + str(windowno13))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window14()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window14()
+def window14():
+    if moni14:
+        windowno14 = pyautogui.locateOnScreen('data_pic/windowno14.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 14", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno14, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno14" + str(windowno14))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window15()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window15()
+def window15():
+    if moni15:
+        windowno15 = pyautogui.locateOnScreen('data_pic/windowno15.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 15", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno15, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno15" + str(windowno15))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            window16()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            window16()
+def window16():
+    if moni16:
+        windowno16 = pyautogui.locateOnScreen('data_pic/windowno16.png', confidence=0.90)
+        label_countdown.configure(text="กำลังทำงานจอที่ 16", fg="yellow")
+        status_ball.configure(text=" ", fg="yellow")
+        root.update()
+        pyautogui.moveTo(windowno16, duration=0.2)
+        time.sleep(0.5)
+        pyautogui.doubleClick()
+        click()
+        print("windowno16" + str(windowno16))
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        if bag is None:
+            print("ไม่เจอหน้ากระเป๋า")
+            openbag()
+            # window9()
+        else:
+            print("กำลังส่งไปเช็คลูก")
+            checkball()
+            # window9()
+
+def openbag():
+    print("กำลังเปิดเป๋า")
+    time.sleep(0.5)
+    pyautogui.hotkey('ctrl', 'e')
+    bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+    pyautogui.moveTo(bag, duration=0.2)
+    pyautogui.click(bag)
+    if bag is None:
+        bag = pyautogui.locateOnScreen('data_pic/bag.png', confidence=0.70)
+        openbag = pyautogui.locateOnScreen('data_pic/openbag.png', confidence=0.70)
+        pyautogui.moveTo(openbag)
+        pyautogui.click(openbag)
+        time.sleep(0.2)
+        pyautogui.moveTo(bag, duration=0.2)
+        time.sleep(0.2)
+        pyautogui.click(bag)
+        checkball()
+    else:
+        checkball()
+
+import requests
+
+def linenotify(message):
+    myScreenshot = pyautogui.screenshot()
+    myScreenshot.save('screenshot.png')
+    url = 'https://notify-api.line.me/api/notify'
+    token = 'tId26jEAcYVn4BLjKtXHGMCoouT1yJvBymC7Bhd5uG0'  # Line Notify Token
+    img = {'imageFile': open('screenshot.png', 'rb')}  # Local picture File
+    data = {'message': message}
+    headers = {'Authorization': 'Bearer ' + token}
+    session = requests.Session()
+    session_post = session.post(url, headers=headers, files=img, data=data)
+    print(session_post.text)
+
+
+def checkball():
+    ball = pyautogui.locateOnScreen('data_pic/ball.png', confidence=0.80)
+    ball_low = pyautogui.locateOnScreen('data_pic/ball_low.png', confidence=0.95)
+    ball_med = pyautogui.locateOnScreen('data_pic/ball_med.png', confidence=0.95)
+    ball_high = pyautogui.locateOnScreen('data_pic/ball_high.png', confidence=0.95)
+    ball_low_full = pyautogui.locateOnScreen('data_pic/ball_low_full.png', confidence=0.90)
+    ball_med_full = pyautogui.locateOnScreen('data_pic/ball_med_full.png', confidence=0.90)
+    ball_high_full = pyautogui.locateOnScreen('data_pic/ball_high_full.png', confidence=0.90)
+    slot = pyautogui.locateOnScreen('data_pic/slot.png', confidence=0.90)
+    tuapai = pyautogui.locateOnScreen('data_pic/tuapai.png', confidence=0.70)
+    time.sleep(0.5)
+    if ball is None:
+        # send.line[บอลหมดแล้ว]
+        # sent.statu
+        status_ball.configure(text="ไม่เจอลูกแก้ว", fg="yellow")
+        root.update()
+        print("หาลูกแก้วไม่เจอ")
+        minimize()
+    elif slot:
+        print("เจอ slot")
+        pyautogui.moveTo(ball, duration=0.2)
+        time.sleep(0.2)
+        pyautogui.dragTo(slot[0]+ 20, slot[1] + 35, duration=0.2)
+        time.sleep(0.2)
+        click()
+        pyautogui.click()
+        minimize()
+    elif ball_low_full or ball_med_full or ball_high_full:
+        print("เจอลูกแก้วเต็ม")
+        pyautogui.moveTo(ball_low_full or ball_med_full or ball_high_full, duration=0.2)
+        time.sleep(0.2)
+        pyautogui.dragTo(ball, duration=0.2)
+        time.sleep(0.2)
+        click()
+        pyautogui.click()
+        minimize()
+    elif ball_low or ball_med or ball_high:
+        print("ใส่บอลอยู่แล้ว")
+        #sent.status = “ใส่บอลอยู่แล้ว”
+        status_ball.configure(text="ใส่บอลอยู่แล้ว", fg="yellow")
+        root.update()
+        minimize()
+    else:
+        print("หาอะไรไม่เจอเลย")
+        pyautogui.moveTo(tuapai[0]+20, tuapai[1]+35, duration=0.2)
+        time.sleep(0.2)
+        pyautogui.dragTo(ball, duration=0.2)
+        time.sleep(0.2)
+        click()
+        pyautogui.click()
+        minimize()
+
+def Main_Program():
+    hwid = str(str(subprocess.check_output('wmic csproduct get uuid')).strip().replace(r"\r", "").split(r"\n")[1].strip())
+    r = requests.get("https://pastebin.com/vVjJLhVy")
+    if hwid in r.text:
+        checkmonitor()
+    else:
+        welcome = Tk()
+        welcome.geometry('400x100')
+        welcome.title("YGCB || MAXEZ Ver.0.0.4")
+        welcome.configure(bg="#000")
+        welcome.iconbitmap('data_pic/alligator.ico')
+        labelnotfound = tkinter.Label(master=welcome, text="คุณยังไม่ได้ซื้อโปรแกรม", font=("Kanit", 12), bg="#000",
+                                      fg="#FF2D00")
+        labelnotfound.pack()
+        labelhwid = tkinter.Label(master=welcome, text="นำ HWID นี้ไปติดต่อที่เพจ", font=("Kanit", 12), bg="#000",
+                                  fg="#dce4ee")
+        labelhwid.pack(pady=1, padx=1)
+
+        hwid_show = tkinter.Entry(master=welcome, text="HWID: " + hwid, font=("Kanit", 12), bg="#000", fg="#dce4ee",width=32)
+        hwid_show.insert(0, hwid)
+        hwid_show.pack(pady=1, padx=1)
+        hwidon = False
+
+def print_selection():
+    global mini
+    if (var1.get() == 1):
+        mini = True
+        print("mini TRUE")
+    elif (var1.get() ==0):
+        print("mini Flase")
+        mini = False
+def mini800():
+    global mini800
+    if (var2.get() ==1):
+        print("800600 TRUE")
+        mini800 = True
+    elif (var2.get() ==0):
+        print("mi800 Flase")
+        mini800 = False
+
+#welcome.mainloop()
+
+root = Tk()
+root.geometry('400x380')
+root.title("YGCB || MAXEZ Ver.1.0.3")
+root.configure(bg="#000")
+root.iconbitmap('data_pic/alligator.ico')
+root.resizable(width=False, height=False)
+login = Button(root,width=16,height=2,text="button")
+login.place(x=60,y=190)
+
+frame = Frame(master=root, bg="#2b2b2b")
+frame.pack(pady=20, padx=60, fill="both", expand=True)
+
+label = tkinter.Label(master=frame, text="เก็บลูกแก้ว Yulgang ", font=("Kanit", 22),bg="#2b2b2b",fg="#dce4ee")
+label.pack(pady=5, padx=10)
+
+label2 = tkinter.Label(master=frame, text="ตั้งนาทีทำงานอีกครั้ง", font=("Kanit", 12),bg="#2b2b2b",fg="#dce4ee")
+label2.place(x=20,y=65)
+
+minuteEntry = tkinter.Entry(master=frame, font=("Kanit", 12),bg="#343638", width=2, fg="#dce4ee", highlightthickness=2)
+minuteEntry.config(highlightbackground = "#565b5e", highlightcolor= "#565b5e")
+minuteEntry.place(x=170,y=65)
+
+var1 = tkinter.IntVar()
+var2 = tkinter.IntVar()
+c1 = tkinter.Checkbutton(frame, text='เมื่อทำงานเสร็จกดพับหน้าจอ', variable=var1, onvalue=1, offvalue=0, command=print_selection, bg="#2b2b2b", fg="#FF2D00",
+                          font=("Kanit", 12))
+c1.place(x=30,y=100)
+c2 = tkinter.Checkbutton(frame, text='จอ 800*600', variable=var2, onvalue=1, offvalue=0, command=mini800, bg="#2b2b2b", fg="#FF2D00",
+                          font=("Kanit", 12))
+c2.place(x=30,y=140)
+
+minutelebel = tkinter.Label(master=frame, text="นาที", font=("Kanit", 12),bg="#2b2b2b",fg="#dce4ee")
+minutelebel.place(x=210,y=65)
+
+label_countdown = tkinter.Label(master=frame, text=" ", font=("Kanit", 13), bg="#2b2b2b")
+label_countdown.place(x=76,y=177)
+
+status_ball = tkinter.Label(master=frame, text=" ", font=("Kanit", 13), bg="#2b2b2b")
+status_ball.place(x=90,y=207)
+
+start_pic = PhotoImage(file = 'data_pic/start.png')
+button = tkinter.Button(master=frame, text="เริ่มทำงาน", image=start_pic, command=Main_Program, bg="#000")#, height=40, width=30)
+button.place(x=20, y=260)
+
+stop_pic = PhotoImage(file = 'data_pic/stop.png')
+stop_button = tkinter.Button(master=frame, text="หยุดทำงาน", command=stopkub, font=("Kanit", 14), image=stop_pic, bg="#000")
+stop_button.place(x=140, y=260)
+
+root.mainloop()
